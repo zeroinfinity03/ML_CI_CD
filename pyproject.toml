@@ -16,5 +16,7 @@ dependencies = [
     "seaborn>=0.13.2",
     "uvicorn>=0.35.0",
     "xgboost>=3.0.2",
+    "flake8>=7.0.0",
+    "pytest>=8.0.0",
 ]
 
