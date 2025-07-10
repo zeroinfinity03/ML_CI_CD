@@ -23,7 +23,7 @@ async def form_page(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
 @app.post("/predictdata", response_class=HTMLResponse)
-async def predict_data(
+async def predict_datapoint(
     request: Request,
     gender: str = Form(...),
     ethnicity: str = Form(...),
