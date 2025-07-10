@@ -2,6 +2,8 @@
 
 A modern machine learning project for predicting student performance using industry-standard tools and deployment practices.
 
+**🎓 Currently in Learning Mode**: Full CI/CD pipeline with automated testing. Cloud deployment sections are commented out (easily uncommented when ready for production).
+
 ## 🚀 **Modern Tech Stack**
 
 - **⚡ Package Management**: `uv` (2024-2025 industry standard)
@@ -98,15 +100,15 @@ uv run autopep8 --in-place --recursive src/
 
 ### **CI/CD Pipeline**
 
-**✅ Automated Testing on Push:**
+**✅ Automated Testing on Push (Learning Mode):**
 ```
-Push to GitHub → Install Dependencies → Run Tests → Deploy (if tests pass)
+Push to GitHub → Install Dependencies → Run Tests → ✅ Complete (No deployment in learning mode)
 ```
 
-**🔄 GitHub Actions Workflow:**
-1. **Continuous Integration**: Tests your ML code
-2. **Continuous Delivery**: Builds Docker image 
-3. **Continuous Deployment**: Deploys to cloud
+**🔄 GitHub Actions Workflow (Current):**
+1. **Continuous Integration**: Tests your ML code ✅ ACTIVE
+2. **Continuous Delivery**: Builds Docker image 💤 COMMENTED OUT (for learning)
+3. **Continuous Deployment**: Deploys to cloud 💤 COMMENTED OUT (for learning)
 
 ### **⚠️ GitHub Actions Requirements**
 
@@ -133,19 +135,24 @@ tests/                  # Test directory (created automatically)
 | Linting failures | Code style issues | ✅ **Fixed**: Temporarily disabled in workflows |
 | Import errors | Missing `__init__.py` | ✅ **Fixed**: Added proper package structure |
 
-**🎯 Current Status:**
+**🎯 Current Status (Learning Mode):**
 - ✅ **Testing**: Working (7 tests pass)
-- ⏸️ **Linting**: Temporarily disabled (TODO: fix code style)
-- ✅ **CI/CD**: Functional for deployment
+- ⏸️ **Linting**: Commented out (has code style issues)
+- ⏸️ **AWS Deployment**: Commented out (no AWS setup needed for learning)
+- ⏸️ **Azure Deployment**: Commented out (no Azure setup needed for learning)
+- ✅ **CI/CD**: Functional for testing only
 
-**📝 To Re-enable Linting Later:**
+**📝 To Enable Full Production Mode Later:**
 ```bash
 # 1. Fix code style issues
 uv run autopep8 --in-place --recursive src/
 
-# 2. Uncomment linting steps in:
-#    .github/workflows/aws-deploy.yml
-#    .github/workflows/azure-deploy.yml
+# 2. Uncomment sections in .github/workflows/aws-deploy.yml:
+#    - LINTING SECTION
+#    - AWS DEPLOYMENT SECTION
+
+# 3. Set up cloud credentials in GitHub Secrets
+# 4. Set up AWS/Azure infrastructure
 ```
 
 ## 🐳 **Docker Setup**
@@ -182,15 +189,21 @@ docker run -p 8000:8000 ml-project
 
 ## ☁️ **Multi-Cloud Deployment**
 
+**🎓 Learning Mode Active**: Deployment workflows are commented out. Only CI testing runs automatically. All deployment code is preserved and ready to uncomment when you're ready for production.
+
 ### 🚀 **AWS Deployment (Production)**
 
-**Automatic Deployment:**
+**⏸️ Currently Commented Out for Learning Mode**
+
+**When Ready for Production:**
 ```bash
-# Push to main branch triggers AWS deployment
+# 1. Uncomment AWS deployment sections in .github/workflows/aws-deploy.yml
+# 2. Set up AWS credentials in GitHub Secrets  
+# 3. Push to main branch triggers AWS deployment
 git push origin main
 ```
 
-**Manual Deployment:**
+**Manual Deployment (When Enabled):**
 1. Go to GitHub → Actions → "Deploy ML Project to AWS ECS"
 2. Click "Run workflow"
 
@@ -207,14 +220,18 @@ GitHub → Docker Build → AWS ECR → ECS/Fargate → Load Balancer
 
 ### 🌐 **Azure Deployment (Development)**
 
-**Automatic Deployment:**
+**⏸️ Currently Commented Out for Learning Mode**
+
+**When Ready for Development Deployment:**
 ```bash
-# Push to azure-deploy branch triggers Azure deployment
+# 1. Uncomment Azure deployment sections in .github/workflows/azure-deploy.yml
+# 2. Set up Azure credentials in GitHub Secrets
+# 3. Push to azure-deploy branch triggers Azure deployment
 git checkout -b azure-deploy
 git push origin azure-deploy
 ```
 
-**Manual Deployment:**
+**Manual Deployment (When Enabled):**
 1. Go to GitHub → Actions → "Deploy ML Project to Azure (Docker)"
 2. Click "Run workflow"
 
