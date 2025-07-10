@@ -20,7 +20,7 @@ ml-project/
 ├── 🔒 uv.lock                 # Locked dependencies
 ├── 🐍 .python-version         # Python version (3.11)
 ├── 🐳 Dockerfile              # Container configuration
-├── 📋 task-definition.json    # AWS ECS configuration
+├── 🐳 docker-compose.yml      # Universal container configuration
 ├── 📝 app.py                  # FastAPI web application
 ├── 📝 main.py                 # Entry point
 ├── 📁 src/                    # ML pipeline source code
@@ -75,16 +75,28 @@ Visit: `http://localhost:8000`
 
 ## 🐳 **Docker Setup**
 
-### **Build & Run Container**
+### **Option 1: Docker Compose (Recommended)**
+```bash
+# Start application with all services
+docker-compose up
+
+# Run in background
+docker-compose up -d
+
+# Stop application
+docker-compose down
+
+# Access application
+curl http://localhost:8000
+```
+
+### **Option 2: Manual Docker Build**
 ```bash
 # Build Docker image
 docker build -t ml-project .
 
 # Run container
 docker run -p 8000:8000 ml-project
-
-# Access application
-curl http://localhost:8000
 ```
 
 ### **Container Features:**
@@ -267,20 +279,20 @@ AZURE_RESOURCE_GROUP=your-resource-group
 ## 🔧 **Development Commands**
 
 ```bash
-# Run application locally
+# Local development (no Docker)
 uv run python app.py
+
+# Docker development (recommended)
+docker-compose up
 
 # Add new dependencies
 uv add package-name
 
-# Update dependencies
+# Update dependencies  
 uv lock --upgrade
 
-# Build Docker image
-docker build -t ml-project .
-
-# Run Docker container
-docker run -p 8000:8000 ml-project
+# Deploy to any cloud
+docker-compose build  # Builds universal image
 ```
 
 ## 🤝 **Contributing**
