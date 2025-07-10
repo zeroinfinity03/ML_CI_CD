@@ -42,8 +42,9 @@ jobs:
       run: |
         uv sync
 
-    # TODO: Fix code style issues first, then re-enable linting  
-    # Temporarily disabled to allow CI/CD pipeline to work
+    # =============================================================================
+    # LINTING SECTION - UNCOMMENT WHEN CODE STYLE ISSUES ARE FIXED
+    # =============================================================================
     # - name: Lint code
     #   run: |
     #     uv run flake8 src/ --max-line-length=88 --ignore=E203,W503
@@ -52,56 +53,59 @@ jobs:
       run: |
         uv run pytest tests/ -v --tb=short
 
+  # =============================================================================
+  # AZURE DEPLOYMENT SECTION - UNCOMMENT WHEN READY FOR REAL DEPLOYMENT
+  # =============================================================================
   # CD: Continuous Delivery - Build and Push
-  build-and-push-acr-image:
-    name: Continuous Delivery
-    needs: integration
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Login to Azure Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
-        password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: |
-          ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:${{ github.sha }}
-          ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:latest
-
-    outputs:
-      image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:${{ github.sha }}
+  # build-and-push-acr-image:
+  #   name: Continuous Delivery
+  #   needs: integration
+  #   runs-on: ubuntu-latest
+  #   
+  #   steps:
+  #   - name: Checkout Code
+  #     uses: actions/checkout@v4
+  #
+  #   - name: Set up Docker Buildx
+  #     uses: docker/setup-buildx-action@v3
+  #
+  #   - name: Login to Azure Container Registry
+  #     uses: docker/login-action@v3
+  #     with:
+  #       registry: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}
+  #       username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+  #       password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+  #
+  #   - name: Build and push Docker image
+  #     uses: docker/build-push-action@v5
+  #     with:
+  #       context: .
+  #       push: true
+  #       tags: |
+  #         ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:${{ github.sha }}
+  #         ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:latest
+  #
+  #   outputs:
+  #     image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:${{ github.sha }}
 
   # CD: Continuous Deployment - Deploy to Azure
-  continuous-deployment:
-    name: Continuous Deployment
-    needs: build-and-push-acr-image
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Deploy to Azure Container Apps
-      uses: azure/container-apps-deploy-action@v1
-      with:
-        app-name: ${{ secrets.AZURE_APP_NAME }}
-        resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-        image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:${{ github.sha }} 
+  # continuous-deployment:
+  #   name: Continuous Deployment
+  #   needs: build-and-push-acr-image
+  #   runs-on: ubuntu-latest
+  #   
+  #   steps:
+  #   - name: Checkout Code
+  #     uses: actions/checkout@v4
+  #
+  #   - name: Login to Azure
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #
+  #   - name: Deploy to Azure Container Apps
+  #     uses: azure/container-apps-deploy-action@v1
+  #     with:
+  #       app-name: ${{ secrets.AZURE_APP_NAME }}
+  #       resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+  #       image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/ml-project:${{ github.sha }} 

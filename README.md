@@ -147,12 +147,23 @@ tests/                  # Test directory (created automatically)
 # 1. Fix code style issues
 uv run autopep8 --in-place --recursive src/
 
-# 2. Uncomment sections in .github/workflows/aws-deploy.yml:
-#    - LINTING SECTION
-#    - AWS DEPLOYMENT SECTION
+# 2. In .github/workflows/aws-deploy.yml, uncomment these exact sections:
+#    ============================================================================= 
+#    LINTING SECTION - UNCOMMENT WHEN CODE STYLE ISSUES ARE FIXED
+#    =============================================================================
+#    
+#    =============================================================================
+#    AWS DEPLOYMENT SECTION - UNCOMMENT WHEN READY FOR REAL DEPLOYMENT  
+#    =============================================================================
 
-# 3. Set up cloud credentials in GitHub Secrets
-# 4. Set up AWS/Azure infrastructure
+# 3. Set up cloud credentials in GitHub Secrets:
+#    - AWS_ACCESS_KEY_ID
+#    - AWS_SECRET_ACCESS_KEY  
+#    - AWS_REGION
+#    - ECR_REPOSITORY_NAME
+#    - ECS_CLUSTER, ECS_SERVICE, ECS_TASK_DEFINITION
+
+# 4. Set up AWS infrastructure (ECR, ECS)
 ```
 
 ## 🐳 **Docker Setup**
@@ -191,15 +202,22 @@ docker run -p 8000:8000 ml-project
 
 **🎓 Learning Mode Active**: Deployment workflows are commented out. Only CI testing runs automatically. All deployment code is preserved and ready to uncomment when you're ready for production.
 
+**Specific Sections Commented Out:**
+- ✅ **Both AWS & Azure**: Linting sections (code style issues exist)
+- ✅ **Both AWS & Azure**: Deployment sections (no cloud setup needed for learning)
+- ✅ **Clear Headers**: Each section has exact instructions for uncommenting
+
 ### 🚀 **AWS Deployment (Production)**
 
 **⏸️ Currently Commented Out for Learning Mode**
 
 **When Ready for Production:**
 ```bash
-# 1. Uncomment AWS deployment sections in .github/workflows/aws-deploy.yml
-# 2. Set up AWS credentials in GitHub Secrets  
-# 3. Push to main branch triggers AWS deployment
+# 1. In .github/workflows/aws-deploy.yml, uncomment:
+#    "AWS DEPLOYMENT SECTION - UNCOMMENT WHEN READY FOR REAL DEPLOYMENT"
+# 2. Set up AWS credentials in GitHub Secrets (see detailed list above)
+# 3. Set up AWS infrastructure (ECR repository, ECS cluster) 
+# 4. Push to main branch triggers AWS deployment
 git push origin main
 ```
 
@@ -224,9 +242,16 @@ GitHub → Docker Build → AWS ECR → ECS/Fargate → Load Balancer
 
 **When Ready for Development Deployment:**
 ```bash
-# 1. Uncomment Azure deployment sections in .github/workflows/azure-deploy.yml
-# 2. Set up Azure credentials in GitHub Secrets
-# 3. Push to azure-deploy branch triggers Azure deployment
+# 1. In .github/workflows/azure-deploy.yml, uncomment:
+#    "AZURE DEPLOYMENT SECTION - UNCOMMENT WHEN READY FOR REAL DEPLOYMENT"
+# 2. Set up Azure credentials in GitHub Secrets:
+#    - AZURE_REGISTRY_LOGIN_SERVER
+#    - AZURE_REGISTRY_USERNAME  
+#    - AZURE_REGISTRY_PASSWORD
+#    - AZURE_CREDENTIALS
+#    - AZURE_APP_NAME, AZURE_RESOURCE_GROUP
+# 3. Set up Azure infrastructure (Container Registry, Container Apps)
+# 4. Push to azure-deploy branch triggers Azure deployment
 git checkout -b azure-deploy
 git push origin azure-deploy
 ```
@@ -246,7 +271,7 @@ GitHub → Docker Build → Azure Container Registry → Container Apps → Auto
 - `GET /` - Home page with prediction form
 - `GET /predictdata` - Prediction form page
 - `POST /predictdata` - Submit prediction request
-
+git 
 ### **Prediction API:**
 ```bash
 # Example API call
